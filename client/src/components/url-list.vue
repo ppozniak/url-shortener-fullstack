@@ -1,15 +1,11 @@
 <template>
   <div class="section">
     <h2>Recently shortened links:</h2>
+    <div v-if="!urls.length">There are no recent shortened URLs</div>
     <ul class="list">
-      <li class="item">
-        <a class="link" href="#">
-          URL 1
-        </a>
-      </li>
-      <li class="item">
-        <a class="link" href="#">
-          URL 2
+      <li v-for="url in urls" :key="url" class="item">
+        <a class="link" :href="url">
+          {{ url }}
         </a>
       </li>
     </ul>
@@ -17,11 +13,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
   name: "UrlList",
-  props: {}
+  props: {
+    urls: {
+      type: Array as PropType<string[]>,
+      default: [],
+    },
+  },
 });
 </script>
 

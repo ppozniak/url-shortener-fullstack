@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import { validateUrl } from "../utils";
 
 export default defineComponent({
@@ -30,6 +30,11 @@ export default defineComponent({
     errorMessage: "",
     userUrl: "",
   }),
+  props: {
+    onSuccessfulSubmit: {
+      type: Function as PropType<(url: string) => void>,
+    },
+  },
   methods: {
     clearErrorMessage() {
       this.errorMessage = "";
@@ -39,7 +44,9 @@ export default defineComponent({
       this.clearErrorMessage();
 
       if (isUrlValid) {
-        console.log("Fetching.");
+        if (this.onSuccessfulSubmit) {
+          this.onSuccessfulSubmit(this.userUrl);
+        }
       } else {
         this.errorMessage = "You have to enter valid URL.";
       }

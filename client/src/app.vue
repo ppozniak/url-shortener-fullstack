@@ -4,8 +4,8 @@
       <header>
         <h1 class="page-heading">URL Shortener</h1>
       </header>
-      <url-input />
-      <url-list />
+      <url-input :onSuccessfulSubmit="fetchShortenedUrl" />
+      <url-list :urls="recentUrls" />
     </div>
   </main>
 </template>
@@ -17,10 +17,23 @@ import UrlList from "./components/url-list.vue";
 
 export default defineComponent({
   name: "App",
+  data: () => ({
+    recentUrls: [
+      "url1.fdsfasdgsdgs",
+      "url1.fdsfasdgsdges",
+      "url1.fdsfasdgsdgsf",
+      "url1.fdsfasdgsdgsd",
+    ],
+  }),
+  methods: {
+    fetchShortenedUrl(url: string) {
+      console.log("Fetching this url:", url);
+    },
+  },
   components: {
     UrlInput,
-    UrlList
-  }
+    UrlList,
+  },
 });
 </script>
 
