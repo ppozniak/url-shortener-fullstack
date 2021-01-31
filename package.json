@@ -1,0 +1,13 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "(cd server && npm install); (cd client && npm install);",
+    "start": "(cd client && npm run serve)"
+  },
+  "keywords": [],
+  "author": "Patryk Pozniak <ppozniak95@gmail.com>",
+  "license": "ISC"
+}
