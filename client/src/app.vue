@@ -4,7 +4,14 @@
       <header>
         <h1 class="page-heading">URL Shortener</h1>
       </header>
-      <url-input :onSuccessfulSubmit="fetchShortenedUrl" />
+      <url-input
+        :disabled="fetchingData"
+        :onSuccessfulSubmit="fetchShortenedUrl"
+      />
+      <div class="statuses">
+        <div v-if="fetchingData">Shortening...</div>
+        <div v-if="errorMessage">{{ errorMessage }}</div>
+      </div>
       <url-list :urls="recentUrls" />
     </div>
   </main>
@@ -15,9 +22,13 @@ import { defineComponent } from "vue";
 import UrlInput from "./components/url-input.vue";
 import UrlList from "./components/url-list.vue";
 
+import { urlApi } from "./api";
+
 export default defineComponent({
   name: "App",
   data: () => ({
+    fetchingData: false,
+    errorMessage: "",
     recentUrls: [
       "url1.fdsfasdgsdgs",
       "url1.fdsfasdgsdges",
@@ -26,8 +37,18 @@ export default defineComponent({
     ],
   }),
   methods: {
-    fetchShortenedUrl(url: string) {
-      console.log("Fetching this url:", url);
+    async fetchShortenedUrl(url: string) {
+      this.fetchingData = true;
+      this.errorMessage = "";
+      try {
+        const { data } = await urlApi.requestShortenedUrl(url);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+        this.errorMessage = error.message;
+      } finally {
+        this.fetchingData = false;
+      }
     },
   },
   components: {
@@ -49,6 +70,14 @@ export default defineComponent({
 
 .page-heading {
   font-size: 3rem;
+}
+
+.statuses:empty {
+  display: none;
+}
+
+.statuses {
+  margin-top: 1rem;
 }
 </style>
 

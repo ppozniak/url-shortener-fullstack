@@ -14,7 +14,7 @@
         {{ errorMessage }}
       </label>
     </fieldset>
-    <button class="button" type="submit">
+    <button class="button" type="submit" :disabled="disabled">
       Shorten!
     </button>
   </form>
@@ -31,6 +31,9 @@ export default defineComponent({
     userUrl: "",
   }),
   props: {
+    disabled: {
+      type: Boolean,
+    },
     onSuccessfulSubmit: {
       type: Function as PropType<(url: string) => void>,
     },
@@ -109,9 +112,12 @@ export default defineComponent({
 
 .button:focus,
 .button:hover {
-  background-color: #fefefe;
-  color: #000;
+  background-color: #242020fe;
   outline: none;
   cursor: pointer;
+}
+
+.button[disabled] {
+  opacity: 0.5;
 }
 </style>
