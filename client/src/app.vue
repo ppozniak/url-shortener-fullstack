@@ -1,9 +1,13 @@
 <template>
-  <header>
-    <h1 class="page-heading">URL Shortener</h1>
-  </header>
-  <url-input />
-  <url-list />
+  <main class="app-wrapper">
+    <div>
+      <header>
+        <h1 class="page-heading">URL Shortener</h1>
+      </header>
+      <url-input />
+      <url-list />
+    </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -21,16 +25,30 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.page-heading {
-  font-size: 2rem;
+.app-wrapper {
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.page-heading {
+  font-size: 3rem;
+}
+</style>
+
+<style>
+body {
+  font-family: sans-serif;
+  color: #141414;
+  background-color: #fefefe;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 </style>
