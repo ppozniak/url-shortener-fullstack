@@ -2,7 +2,17 @@
   <form @submit.prevent="handleSubmit">
     <fieldset class="field">
       <label class="label" for="url">Enter URL to shorten</label>
-      <input class="input" id="url" :value="input" type="text" />
+      <input
+        class="input"
+        id="url"
+        v-model="userUrl"
+        v-bind:class="{ hasError: errorMessage }"
+        @input="clearErrorMessage"
+        type="text"
+      />
+      <label class="error" v-if="errorMessage" for="url">
+        {{ errorMessage }}
+      </label>
     </fieldset>
     <button class="button" type="submit">
       Shorten!
@@ -12,18 +22,29 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { validateUrl } from "../utils";
 
 export default defineComponent({
   name: "URLInput",
   data: () => ({
-    input: ""
+    errorMessage: "",
+    userUrl: "",
   }),
   methods: {
-    handleSubmit(event: Event) {
-      console.log(event);
-      console.log(this.input);
-    }
-  }
+    clearErrorMessage() {
+      this.errorMessage = "";
+    },
+    handleSubmit() {
+      const isUrlValid = validateUrl(this.userUrl);
+      this.clearErrorMessage();
+
+      if (isUrlValid) {
+        console.log("Fetching.");
+      } else {
+        this.errorMessage = "You have to enter valid URL.";
+      }
+    },
+  },
 });
 </script>
 
@@ -50,6 +71,18 @@ export default defineComponent({
   font-size: 1.2rem;
   border-radius: 4px;
   padding: 0.2rem 0.45rem;
+}
+
+.input.hasError {
+  border-color: #da6262;
+}
+
+.error {
+  color: #da6262;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  margin-top: 0.4rem;
 }
 
 .button {
